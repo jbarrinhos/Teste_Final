@@ -76,7 +76,7 @@ export function Funcionarios(props) {
                           component="img"
                           height="180"
                           image={element.imagem}
-                          alt="livro"
+                          alt="img"
                         />
 
                         <CardContent>

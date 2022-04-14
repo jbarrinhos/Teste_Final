@@ -97,7 +97,7 @@ export function Empresas(props) {
                           component="img"
                           height="300"
                           image={element.imagem}
-                          alt="livro"
+                          alt="img"
                         />
                       </CardActionArea>
 
