@@ -18,8 +18,35 @@ export function AddPessoa() {
     empresa: {
       id: "",
     },
+    imagem: "",
   });
   const [listaEmpresas, setListasEmpresas] = useState([]);
+
+  const uploadImage = async (e) => {
+    const file = e.target.files[0];
+    console.log(file);
+    const base64 = await convertBase64(file);
+    let aux = base64;
+    console.log(base64);
+    console.log(aux);
+    setNovaPessoa({ ...novaPessoa, imagem: aux });
+    console.log(aux);
+  };
+
+  const convertBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      };
+
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
+    });
+  };
 
   useEffect(() => {
     GetEmpresas();
@@ -151,6 +178,13 @@ export function AddPessoa() {
             ))}
           </Select>
         </FormControl>
+        <br></br>
+        <input
+          type="file"
+          onChange={(e) => {
+            uploadImage(e);
+          }}
+        />
       </Box>
       <br></br>
       <div>

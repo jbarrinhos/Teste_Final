@@ -6,14 +6,47 @@ import TextField from "@mui/material/TextField";
 const API_URL = "http://localhost:8080";
 
 export function AddEmpresa() {
-  const [novaEmpresa, setNovaEmpresa] = useState({ nome: "", morada: "" });
+  const [novaEmpresa, setNovaEmpresa] = useState({
+    nome: "",
+    morada: "",
+    imagem: "",
+  });
   const [listaEmpresas, setListasEmpresas] = useState([]);
+
+  const uploadImage = async (e) => {
+    const file = e.target.files[0];
+    console.log(file);
+    const base64 = await convertBase64(file);
+    let aux = base64;
+    console.log(base64);
+    console.log(aux);
+    setNovaEmpresa({ ...novaEmpresa, imagem: aux });
+    console.log(aux);
+  };
+
+  const convertBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      };
+
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
+    });
+  };
 
   useEffect(() => {
     GetEmpresas();
   }, []);
 
   function AdicionarEmpresa() {
+    var data = new FormData();
+    var imagedata = document.querySelector('input[type="file"]').files[0];
+    data.append(novaEmpresa, imagedata);
     if (
       novaEmpresa.nome.trim().length !== 0 &&
       novaEmpresa.morada.trim().length !== 0
@@ -107,6 +140,13 @@ export function AddEmpresa() {
           value={novaEmpresa.morada}
           onChange={(e) => {
             setNovaEmpresa({ ...novaEmpresa, morada: e.target.value });
+          }}
+        />
+        <br></br>
+        <input
+          type="file"
+          onChange={(e) => {
+            uploadImage(e);
           }}
         />
       </Box>

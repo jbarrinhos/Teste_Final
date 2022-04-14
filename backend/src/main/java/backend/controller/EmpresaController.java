@@ -49,6 +49,11 @@ public class EmpresaController {
 			esr.setMensagem("Morada inválida");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(esr);
 		}
+		if (aEmpresa.getImagem() == null || aEmpresa.getImagem().isBlank()) {
+			esr.setMensagem("Tem de inserir uma imagem");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(esr);
+		}
+
 		if (empresaService.addEmpresa(aEmpresa)) {
 			esr.setSucesso("Empresa criada com sucesso");
 			esr.setEmpresas(empresaService.getAllEmpresas());

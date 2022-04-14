@@ -43,7 +43,7 @@ public class PessoaController {
 
 	@CrossOrigin
 	@PostMapping("/addPessoa")
-	public ResponseEntity<SimpleResponse> addEmpresa(@RequestBody Pessoa aPessoa) {
+	public ResponseEntity<SimpleResponse> addPessoa(@RequestBody Pessoa aPessoa) {
 
 		PessoaSimpleResponse psr = new PessoaSimpleResponse();
 
@@ -66,6 +66,10 @@ public class PessoaController {
 
 		if (!empresaPessoaService.VerificarEmpresa(aPessoa)) {
 			psr.setMensagem("A Empresa nao existe");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(psr);
+		}
+		if (aPessoa.getImagem() == null || aPessoa.getImagem().isBlank()) {
+			psr.setMensagem("Tem de inserir uma imagem");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(psr);
 		}
 

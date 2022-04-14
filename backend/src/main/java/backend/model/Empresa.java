@@ -8,8 +8,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Type;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -24,6 +27,9 @@ public class Empresa {
 
 	private String nome;
 	private String morada;
+	@Lob
+	@Type(type = "org.hibernate.type.TextType")
+	@Column
 	private String imagem;
 
 	@OneToMany(mappedBy = "empresa")
