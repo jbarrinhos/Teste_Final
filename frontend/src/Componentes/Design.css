@@ -1,0 +1,60 @@
+.topnav {
+    overflow: hidden;
+    background-color: rgb(199, 137, 23);
+}
+
+.topnav button {
+    float: left;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+    background-color: rgb(199, 137, 23);
+    border:none;
+}
+
+.topnav button:hover {
+    background-color: #ddd;
+    color: rgb(199, 137, 23);
+}
+
+.css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input  {
+    width: 100% !important;
+    padding-left: 0px !important;;
+ 
+}
+#filled-basic{
+    width:300px!important;
+}
+
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    border: 1px solid #ddd;
+}
+
+th,
+td {
+    text-align: left;
+    padding: 16px;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.btn-Add{
+    border: none;
+    padding: 10px;
+    font-size: 18px;
+    color: rgb(226, 150, 10);
+}
+.btn-Add:hover {
+    border: none;
+    padding: 10px;
+    color:white;
+    background-color: rgb(226, 150, 10);
+}
