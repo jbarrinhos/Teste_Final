@@ -54,7 +54,7 @@ export function Funcionarios(props) {
   }
   return props.infoEmpresa !== {} ? (
     <div>
-      <p id="textoSobre"> funcionarios</p>
+      <p id="textoSobre"> Funcionários da Empresa: {empresa.nome}</p>
       <Grid item xs={12}>
         <Paper sx={{ p: 2 }}>
           <Grid container>
