@@ -3,22 +3,22 @@ package backend.dto;
 public class SimpleResponse {
 
 	private boolean statusOk;
-	private String mensagem;
+	private String message;
 
 	public SimpleResponse() {
 		statusOk = false;
-		mensagem = "Ocorreu um erro";
+		message = "Ocorreu um erro";
 	}
 
-	public void setSucesso(String aMensagem) {
+	public void setSucesso(String aMessage) {
 		statusOk = true;
-		mensagem = aMensagem;
+		message = aMessage;
 
 	}
 
-	public void setAsError(String aMensagem) {
+	public void setAsError(String aMessage) {
 		statusOk = false;
-		mensagem = aMensagem;
+		message = aMessage;
 	}
 
 	public boolean isStatus() {
@@ -29,12 +29,12 @@ public class SimpleResponse {
 		this.statusOk = status;
 	}
 
-	public String getMensagem() {
-		return mensagem;
+	public String getaMessage() {
+		return message;
 	}
 
-	public void setMensagem(String aMensagem) {
-		mensagem = aMensagem;
+	public void setMensagem(String aMessage) {
+		message = aMessage;
 	}
 
 }

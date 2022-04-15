@@ -67,7 +67,7 @@ export function Empresas(props) {
         console.log(parsedResponse);
 
         fetchEmpresas();
-        alert(parsedResponse.message);
+        alert(parsedResponse.aMessage);
       })
       .catch((error) => {
         alert(error);

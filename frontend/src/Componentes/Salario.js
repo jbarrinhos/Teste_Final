@@ -47,7 +47,7 @@ export function AddSalario() {
         })
         .then((parsedResponse) => {
           console.log(parsedResponse);
-          alert(parsedResponse.message);
+          alert(parsedResponse.aMessage);
         })
         .catch((error) => {
           alert(error);

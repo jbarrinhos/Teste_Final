@@ -61,16 +61,16 @@ export function AddEmpresa() {
         .then(async (response) => {
           if (response.status !== 200) {
             const parsedResponse = await response.json();
-            console.log(parsedResponse.message);
-            throw new Error(parsedResponse.message);
+            console.log(parsedResponse);
+            throw new Error(parsedResponse);
           }
           console.log(response);
           return response.json();
         })
         .then((parsedResponse) => {
           GetEmpresas();
-          console.log(parsedResponse);
-          alert(parsedResponse.message);
+          console.log(parsedResponse.aMessage);
+          alert(parsedResponse.aMessage);
         })
         .catch((error) => {
           alert(error);
