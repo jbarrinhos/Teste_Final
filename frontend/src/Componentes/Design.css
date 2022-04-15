@@ -58,3 +58,16 @@ tr:nth-child(even) {
     color:white;
     background-color: rgb(226, 150, 10);
 }
+
+#mensagemSucesso{
+    font-style: italic;
+    color: green;
+}
+#mensagemErro {
+    font-style: italic;
+    color: red;
+}
+
+.css-1u3bzj6-MuiFormControl-root-MuiTextField-root{
+    width: 330px!important;
+}

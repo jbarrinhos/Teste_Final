@@ -29,11 +29,11 @@ public class SimpleResponse {
 		this.statusOk = status;
 	}
 
-	public String getaMessage() {
+	public String getMessage() {
 		return message;
 	}
 
-	public void setMensagem(String aMessage) {
+	public void setMessage(String aMessage) {
 		message = aMessage;
 	}
 

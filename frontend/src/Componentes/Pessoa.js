@@ -21,7 +21,9 @@ export function AddPessoa() {
     imagem: "",
   });
   const [listaEmpresas, setListasEmpresas] = useState([]);
-
+  const [mensagem, setMensagem] = useState();
+  const [sucess, setSucess] = useState(true);
+  const [mensagemErro, setMensagemErro] = useState();
   const uploadImage = async (e) => {
     const file = e.target.files[0];
     console.log(file);
@@ -53,35 +55,29 @@ export function AddPessoa() {
   }, []);
 
   function AdicionarPessoa() {
-    if (
-      novaPessoa.nome.trim().length !== 0 &&
-      novaPessoa.idade.trim().length !== 0 &&
-      novaPessoa.email.trim().length !== 0
-    ) {
-      fetch(API_URL + "/addPessoa", {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify(novaPessoa),
+    fetch(API_URL + "/addPessoa", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(novaPessoa),
+    })
+      .then(async (response) => {
+        if (response.status !== 200) {
+          const parsedResponse = await response.json();
+          console.log(parsedResponse.message);
+          setMensagemErro(parsedResponse.message);
+          setSucess(false);
+        }
+        console.log(response);
+        return response.json();
       })
-        .then(async (response) => {
-          if (response.status !== 200) {
-            const parsedResponse = await response.json();
-            console.log(parsedResponse.message);
-            throw new Error(parsedResponse.message);
-          }
-          console.log(response);
-          return response.json();
-        })
-        .then((parsedResponse) => {
-          console.log(parsedResponse);
-          alert(parsedResponse.aMessage);
-        })
-        .catch((error) => {
-          alert(error);
-        });
-    }
+      .then((parsedResponse) => {
+        console.log(parsedResponse);
+        setMensagem(parsedResponse.message);
+        setSucess(true);
+      })
+      .catch((error) => {});
   }
 
   function GetEmpresas() {
@@ -105,9 +101,7 @@ export function AddPessoa() {
         console.log(parsedResponse);
         setListasEmpresas(parsedResponse);
       })
-      .catch((error) => {
-        alert(error);
-      });
+      .catch((error) => {});
   }
   return (
     <>
@@ -139,7 +133,7 @@ export function AddPessoa() {
           margin="normal"
           required
           id="filled-basic"
-          label="idade da Pessoa"
+          label="Idade da Pessoa"
           variant="filled"
           type="text"
           value={novaPessoa.idade}
@@ -151,7 +145,7 @@ export function AddPessoa() {
           margin="normal"
           required
           id="filled-basic"
-          label="email da Pessoa"
+          label="Email da Pessoa"
           variant="filled"
           type="text"
           value={novaPessoa.email}
@@ -165,7 +159,7 @@ export function AddPessoa() {
           <Select
             labelId="Empresa"
             id="filled-basic"
-            label="Empresa"
+            label="empresa"
             value={novaPessoa.Empresa}
             onChange={(e) => {
               setNovaPessoa({ ...novaPessoa, empresa: e.target.value });
@@ -191,6 +185,11 @@ export function AddPessoa() {
         <button className="btn-Add" onClick={AdicionarPessoa}>
           Adicionar Pessoa
         </button>
+        {sucess ? (
+          <p id="mensagemSucesso">{mensagem}</p>
+        ) : (
+          <p id="mensagemErro">{mensagemErro}</p>
+        )}
       </div>
     </>
   );

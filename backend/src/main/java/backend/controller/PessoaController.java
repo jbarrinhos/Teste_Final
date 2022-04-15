@@ -48,28 +48,28 @@ public class PessoaController {
 		PessoaSimpleResponse psr = new PessoaSimpleResponse();
 
 		if (aPessoa.getNome() == null || aPessoa.getNome().isBlank()) {
-			psr.setMensagem("Nome inválido");
+			psr.setMessage("Tem de inserir um nome");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(psr);
 		}
-		if (aPessoa.getIdade() <= 0) {
-			psr.setMensagem("Idade inválida");
+		if (aPessoa.getIdade() <= 1) {
+			psr.setMessage("Tem de inserir a idade");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(psr);
 		}
 		if (aPessoa.getEmail() == null || aPessoa.getEmail().isBlank()) {
-			psr.setMensagem("Email inválido");
+			psr.setMessage("Tem de inserir um email");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(psr);
 		}
-		if (aPessoa.getEmpresa() == null) {
-			psr.setMensagem("A pessoa tem de pertencer a uma Empresa");
+		if (aPessoa.getEmpresa() == null|| aPessoa.getEmpresa().getId()==null) {
+			psr.setMessage("A pessoa tem de pertencer a uma Empresa");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(psr);
 		}
 
 		if (!empresaPessoaService.VerificarEmpresa(aPessoa)) {
-			psr.setMensagem("A Empresa nao existe");
+			psr.setMessage("A Empresa nao existe");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(psr);
 		}
 		if (aPessoa.getImagem() == null || aPessoa.getImagem().isBlank()) {
-			psr.setMensagem("Tem de inserir uma imagem");
+			psr.setMessage("Tem de inserir uma imagem");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(psr);
 		}
 

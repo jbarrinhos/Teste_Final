@@ -43,21 +43,21 @@ public class SalarioController {
 	public ResponseEntity<SimpleResponse> addSalario(@RequestBody Salario aSalario) {
 		SalarioSimpleResponse ssr = new SalarioSimpleResponse();
 
-		if (aSalario.getQuantidade() <= 0) {
-			ssr.setMensagem("Quantidade inválida");
+		if (aSalario.getQuantidade() <= 1) {
+			ssr.setMessage("Tem de inserir a quantidade");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ssr);
 		}
 		if (aSalario.getData() == null) {
-			ssr.setMensagem("Data inválida");
+			ssr.setMessage("Tem de inserir uma data (dd-MM-yyyy)");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ssr);
 		}
-		if (aSalario.getPessoa() == null) {
-			ssr.setMensagem("O salário tem de ter uma pessoa associada");
+		if (aSalario.getPessoa() == null||aSalario.getPessoa().getId()==null) {
+			ssr.setMessage("O salário tem de ter uma pessoa associada");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ssr);
 		}
 
 		if (!pessoaSalarioService.VerificarPessoa(aSalario)) {
-			ssr.setMensagem("A pessoa nao existe");
+			ssr.setMessage("A pessoa nao existe");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ssr);
 		}
 

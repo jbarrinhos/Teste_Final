@@ -6,6 +6,10 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
+import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import "./Design.css";
 
 const API_URL = "http://localhost:8080";
 
@@ -19,40 +23,43 @@ export function AddSalario() {
   });
 
   const [listasPessoas, setListasPessoas] = useState([]);
+  const [mensagem, setMensagem] = useState();
+  const [sucess, setSucess] = useState(true);
+  const [mensagemErro, setMensagemErro] = useState();
+  const [value, setValue] = React.useState(new Date("2014-08-18T21:11:54"));
+
+  const handleChange = (newValue) => {
+    setValue(newValue);
+  };
 
   useEffect(() => {
     GetPessoas();
   }, []);
 
   function AdicionarSalario() {
-    if (
-      novoSalario.quantidade.trim().length !== 0 &&
-      novoSalario.data.trim().length !== 0
-    ) {
-      fetch(API_URL + "/addSalario", {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify(novoSalario),
+    fetch(API_URL + "/addSalario", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(novoSalario),
+    })
+      .then(async (response) => {
+        if (response.status !== 200) {
+          const parsedResponse = await response.json();
+          console.log(parsedResponse.message);
+          setMensagemErro(parsedResponse.message);
+          setSucess(false);
+        }
+        console.log(response);
+        return response.json();
       })
-        .then(async (response) => {
-          if (response.status !== 200) {
-            const parsedResponse = await response.json();
-            console.log(parsedResponse.message);
-            throw new Error(parsedResponse.message);
-          }
-          console.log(response);
-          return response.json();
-        })
-        .then((parsedResponse) => {
-          console.log(parsedResponse);
-          alert(parsedResponse.aMessage);
-        })
-        .catch((error) => {
-          alert(error);
-        });
-    }
+      .then((parsedResponse) => {
+        console.log(parsedResponse);
+        setMensagem(parsedResponse.message);
+        setSucess(true);
+      })
+      .catch((error) => {});
   }
 
   function GetPessoas() {
@@ -93,11 +100,12 @@ export function AddSalario() {
         noValidate
         autoComplete="off"
       >
+        <br></br>
         <TextField
           margin="normal"
           required
           id="filled-basic"
-          label="quantidade"
+          label="Valor do Salário"
           variant="filled"
           type="text"
           value={novoSalario.quantidade}
@@ -105,27 +113,30 @@ export function AddSalario() {
             setNovoSalario({ ...novoSalario, quantidade: e.target.value });
           }}
         />
-
-        <TextField
-          margin="normal"
-          required
-          id="filled-basic"
-          label="data"
-          variant="filled"
-          type="text"
-          value={novoSalario.data}
-          onChange={(e) => {
-            setNovoSalario({ ...novoSalario, data: e.target.value });
-          }}
-        />
-
+        <br></br>
+        <LocalizationProvider className="data" dateAdapter={AdapterDateFns}>
+          <DesktopDatePicker
+            label="Data Lançamento"
+            dateFormat="dd/MM/yyyy"
+            inputFormat="dd/MM/yyyy"
+            value={value}
+            onChange={(newValue) => {
+              setValue(newValue);
+              setNovoSalario({
+                ...novoSalario,
+                data: newValue,
+              });
+            }}
+            renderInput={(params) => <TextField {...params} />}
+          />
+        </LocalizationProvider>
         <br></br>
         <FormControl>
           <InputLabel id="demo-simple-select-label">Pessoa</InputLabel>
           <Select
-            labelId="pessoa"
+            labelId="Pessoa"
             id="filled-basic"
-            label="pessoa"
+            label="Pessoa"
             value={novoSalario.pessoa}
             onChange={(e) => {
               setNovoSalario({ ...novoSalario, pessoa: e.target.value });
@@ -144,6 +155,11 @@ export function AddSalario() {
         <button className="btn-Add" onClick={AdicionarSalario}>
           Adicionar Salário
         </button>
+        {sucess ? (
+          <p id="mensagemSucesso">{mensagem}</p>
+        ) : (
+          <p id="mensagemErro">{mensagemErro}</p>
+        )}
       </div>
     </>
   );

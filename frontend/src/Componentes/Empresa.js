@@ -23,6 +23,9 @@ export function AddEmpresa() {
     setNovaEmpresa({ ...novaEmpresa, imagem: aux });
     console.log(aux);
   };
+  const [mensagem, setMensagem] = useState();
+  const [sucess, setSucess] = useState(true);
+  const [mensagemErro, setMensagemErro] = useState();
 
   const convertBase64 = (file) => {
     return new Promise((resolve, reject) => {
@@ -47,35 +50,31 @@ export function AddEmpresa() {
     var data = new FormData();
     var imagedata = document.querySelector('input[type="file"]').files[0];
     data.append(novaEmpresa, imagedata);
-    if (
-      novaEmpresa.nome.trim().length !== 0 &&
-      novaEmpresa.morada.trim().length !== 0
-    ) {
-      fetch(API_URL + "/addEmpresa", {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify(novaEmpresa),
+
+    fetch(API_URL + "/addEmpresa", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(novaEmpresa),
+    })
+      .then(async (response) => {
+        if (response.status !== 200) {
+          const parsedResponse = await response.json();
+          console.log(parsedResponse);
+          setMensagemErro(parsedResponse.message);
+          setSucess(false);
+        }
+        console.log(response);
+        return response.json();
       })
-        .then(async (response) => {
-          if (response.status !== 200) {
-            const parsedResponse = await response.json();
-            console.log(parsedResponse);
-            throw new Error(parsedResponse);
-          }
-          console.log(response);
-          return response.json();
-        })
-        .then((parsedResponse) => {
-          GetEmpresas();
-          console.log(parsedResponse.aMessage);
-          alert(parsedResponse.aMessage);
-        })
-        .catch((error) => {
-          alert(error);
-        });
-    }
+      .then((parsedResponse) => {
+        GetEmpresas();
+        console.log(parsedResponse.message);
+        setMensagem(parsedResponse.message);
+        setSucess(true);
+      })
+      .catch((error) => {});
   }
 
   function GetEmpresas() {
@@ -155,6 +154,11 @@ export function AddEmpresa() {
         <button className="btn-Add" onClick={AdicionarEmpresa}>
           Adicionar Empresa
         </button>
+        {sucess ? (
+          <p id="mensagemSucesso">{mensagem}</p>
+        ) : (
+          <p id="mensagemErro">{mensagemErro}</p>
+        )}
       </div>
     </>
   );

@@ -42,15 +42,15 @@ public class EmpresaController {
 		EmpresaSimpleResponse esr = new EmpresaSimpleResponse();
 
 		if (aEmpresa.getNome() == null || aEmpresa.getNome().isBlank()) {
-			esr.setMensagem("Nome inválido");
+			esr.setMessage("Tem de inserir um nome");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(esr);
 		}
 		if (aEmpresa.getMorada() == null || aEmpresa.getMorada().isBlank()) {
-			esr.setMensagem("Morada inválida");
+			esr.setMessage("Tem de inserir uma morada");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(esr);
 		}
 		if (aEmpresa.getImagem() == null || aEmpresa.getImagem().isBlank()) {
-			esr.setMensagem("Tem de inserir uma imagem");
+			esr.setMessage("Tem de inserir uma imagem");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(esr);
 		}
 
