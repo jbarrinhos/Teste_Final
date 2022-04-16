@@ -26,7 +26,7 @@ export function AddSalario() {
   const [mensagem, setMensagem] = useState();
   const [sucess, setSucess] = useState(true);
   const [mensagemErro, setMensagemErro] = useState();
-  const [value, setValue] = React.useState(new Date("2014-08-18T21:11:54"));
+  const [value, setValue] = React.useState(new Date("2022-04-16"));
 
   const handleChange = (newValue) => {
     setValue(newValue);

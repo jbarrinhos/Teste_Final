@@ -59,6 +59,10 @@ public class PessoaController {
 			psr.setMessage("Tem de inserir um email");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(psr);
 		}
+		if (!pessoaService.validarEmail(aPessoa.getEmail())) {
+			psr.setMessage("E-mail incorreto! ");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(psr);
+		}
 		if (aPessoa.getEmpresa() == null|| aPessoa.getEmpresa().getId()==null) {
 			psr.setMessage("A pessoa tem de pertencer a uma Empresa");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(psr);

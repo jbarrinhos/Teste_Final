@@ -6,6 +6,9 @@ import static java.lang.Long.parseLong;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import backend.model.Pessoa;
@@ -51,6 +54,21 @@ public class PessoaService {
 		} catch (Exception e) {
 			return false;
 		}
+	}
+	
+	
+	//validação do email 
+	
+	public boolean validarEmail(String aEmail) {
+		String regx = "^(.+)@(.+)$";
+		Pattern pattern = Pattern.compile(regx);
+		Matcher matcher = pattern.matcher(aEmail);
+		if (matcher.matches()) {
+			return true;
+
+		}
+		return false;
+
 	}
 
 
